@@ -17,7 +17,6 @@ const SUSPICIOUS_PATTERNS = {
   benableCommand: /^\.benable\b/i,
   wordSeekCommand: /^\.word_seek\b/i,
   stopSeekCommand: /^\.stop_seek\b/i,
-  wordseekSlashCommand: /^\/wordseek\b.*$/i,
   helpWordseek: /^\.help\s+wordseek\b/i,
   apexUserbot: /apex/i,
   userbotWord: /userbot/i,
@@ -38,7 +37,6 @@ const isSuspiciousMessage = (text: string | undefined): boolean => {
     SUSPICIOUS_PATTERNS.benableCommand.test(text) ||
     SUSPICIOUS_PATTERNS.wordSeekCommand.test(text) ||
     SUSPICIOUS_PATTERNS.stopSeekCommand.test(text) ||
-    SUSPICIOUS_PATTERNS.wordseekSlashCommand.test(text) ||
     SUSPICIOUS_PATTERNS.helpWordseek.test(text) ||
     (SUSPICIOUS_PATTERNS.apexUserbot.test(text) &&
       SUSPICIOUS_PATTERNS.userbotWord.test(text))
@@ -206,9 +204,6 @@ composer.use(async (ctx, next) => {
     } else if (SUSPICIOUS_PATTERNS.stopSeekCommand.test(messageText)) {
       isSuspicious = true;
       suspiciousReason = "Contains .stop_seek command";
-    } else if (SUSPICIOUS_PATTERNS.wordseekSlashCommand.test(messageText)) {
-      isSuspicious = true;
-      suspiciousReason = "Contains /wordseek command";
     } else if (SUSPICIOUS_PATTERNS.helpWordseek.test(messageText)) {
       isSuspicious = true;
       suspiciousReason = "Used .help wordseek command";
