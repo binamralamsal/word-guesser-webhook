@@ -11,6 +11,7 @@ const SUSPICIOUS_PATTERNS = {
   ewsCommand: /\/ews/i,
   dotCommand: /^\.xx\b/i,
   wordhckCommand: /\/wordhck/i,
+  autoWordplayCommand: /^\.autowordplay\b/i,
   stophckCommand: /\/stophck/i,
   wordonCommand: /\/wordon/i,
   wordoffCommand: /\/wordoff/i,
@@ -30,6 +31,7 @@ const isSuspiciousMessage = (text: string | undefined): boolean => {
     SUSPICIOUS_PATTERNS.swsCommand.test(text) ||
     SUSPICIOUS_PATTERNS.ewsCommand.test(text) ||
     SUSPICIOUS_PATTERNS.dotCommand.test(text) ||
+    SUSPICIOUS_PATTERNS.autoWordplayCommand.test(text) ||
     SUSPICIOUS_PATTERNS.wordhckCommand.test(text) ||
     SUSPICIOUS_PATTERNS.stophckCommand.test(text) ||
     SUSPICIOUS_PATTERNS.wordonCommand.test(text) ||
@@ -180,6 +182,9 @@ composer.use(async (ctx, next) => {
     } else if (SUSPICIOUS_PATTERNS.dotCommand.test(messageText)) {
       isSuspicious = true;
       suspiciousReason = "Dot command detected (e.g., .xx)";
+    } else if (SUSPICIOUS_PATTERNS.autoWordplayCommand.test(messageText)) {
+      isSuspicious = true;
+      suspiciousReason = "Contains .autowordplay command";
     } else if (SUSPICIOUS_PATTERNS.autoPlayer.test(messageText)) {
       isSuspicious = true;
       suspiciousReason = "Auto-player keyword detected";
